@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>딜마켓 — M&A 매물 플랫폼</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FF4B12;
+    --orange-light: #FFF1EC;
+    --dark: #111111;
+    --gray-800: #2D2D2D;
+    --gray-600: #555;
+    --gray-400: #999;
+    --gray-200: #E8E8E8;
+    --gray-100: #F5F5F5;
+    --white: #FFFFFF;
+    --border: #EBEBEB;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #FAFAFA;
+    color: var(--dark);
+    line-height: 1.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+  .logo {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--dark);
+    letter-spacing: -0.5px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .logo span {
+    color: var(--orange);
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    flex: 1;
+    justify-content: center;
+  }
+  .nav-links a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-600);
+    position: relative;
+    padding-bottom: 2px;
+  }
+  .nav-links a.active {
+    color: var(--orange);
+    font-weight: 700;
+  }
+  .nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--orange);
+    border-radius: 1px;
+  }
+  .nav-links .badge {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: var(--orange);
+    border-radius: 50%;
+    margin-left: 2px;
+    vertical-align: super;
+  }
+  .nav-cta {
+    background: var(--dark);
+    color: var(--white);
+    border: none;
+    padding: 9px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* ── HERO FILTER ── */
+  .hero {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 24px;
+  }
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero h1 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+  .hero h1 em {
+    color: var(--orange);
+    font-style: normal;
+  }
+  .filter-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-select {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--gray-600);
+    background: white;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s;
+    min-width: 120px;
+  }
+  .filter-select:focus { border-color: var(--orange); }
+  .search-wrap {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+  }
+  .search-wrap input {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 14px 9px 38px;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-wrap input:focus { border-color: var(--orange); }
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-400);
+    font-size: 15px;
+  }
+  .filter-btn {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  /* ── MAIN ── */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 24px 60px;
+  }
+  .result-info {
+    font-size: 13px;
+    color: var(--gray-400);
+    margin-bottom: 20px;
+  }
+  .result-info strong {
+    color: var(--orange);
+    font-weight: 700;
+  }
+
+  /* ── GRID ── */
+  .deals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 900px) { .deals-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 580px) { .deals-grid { grid-template-columns: 1fr; } }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    cursor: pointer;
+    transition: box-shadow 0.18s, transform 0.18s, border-color 0.18s;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+  }
+  .card:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+    border-color: #D8D8D8;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .deal-no {
+    font-size: 11px;
+    color: var(--gray-400);
+    font-weight: 500;
+    letter-spacing: 0.2px;
+  }
+  .bookmark-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gray-300);
+    font-size: 16px;
+    line-height: 1;
+    padding: 2px;
+    transition: color 0.15s;
+  }
+  .bookmark-btn:hover { color: var(--orange); }
+  .bookmark-btn.active { color: var(--orange); }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.45;
+    letter-spacing: -0.3px;
+    flex: 1;
+    min-height: 46px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-height: 24px;
+  }
+  .tag {
+    background: var(--gray-100);
+    color: var(--gray-600);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .card-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: var(--gray-400);
+    font-weight: 500;
+  }
+  .stat-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+  .stat-value.price {
+    color: var(--orange);
+  }
+
+  /* ── PAGINATION ── */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 40px;
+  }
+  .page-btn {
+    width: 34px; height: 34px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: white;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-600);
+    transition: all 0.15s;
+  }
+  .page-btn:hover { border-color: var(--orange); color: var(--orange); }
+  .page-btn.active { background: var(--orange); border-color: var(--orange); color: white; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">딜마켓<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#" class="active">매물 찾기</a></li>
+      <li><a href="#">매물 추천<span class="badge"></span></a></li>
+      <li><a href="#">진행중인 딜</a></li>
+      <li><a href="#">프리미엄</a></li>
+    </ul>
+    <button class="nav-cta">상담하기</button>
+  </div>
+</nav>
+
+<!-- HERO / FILTER -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>검증된 M&A 매물 <em>직접 찾아보세요</em></h1>
+    <div class="filter-row">
+      <select class="filter-select">
+        <option>전체 업종</option>
+        <option>제조업</option>
+        <option>IT/소프트웨어</option>
+        <option>유통/도매</option>
+        <option>음식/F&B</option>
+        <option>서비스업</option>
+        <option>의료/헬스케어</option>
+        <option>물류/운송</option>
+        <option>건설/부동산</option>
+        <option>교육</option>
+        <option>미디어/콘텐츠</option>
+      </select>
+      <select class="filter-select">
+        <option>전체 지역</option>
+        <option>서울</option>
+        <option>경기도</option>
+        <option>인천</option>
+        <option>부산</option>
+        <option>대구</option>
+        <option>대전</option>
+        <option>광주</option>
+        <option>충청도</option>
+        <option>경상도</option>
+        <option>전라도</option>
+        <option>강원도</option>
+        <option>제주도</option>
+      </select>
+      <select class="filter-select">
+        <option>희망가격 전체</option>
+        <option>5억 미만</option>
+        <option>5억~10억</option>
+        <option>10억~30억</option>
+        <option>30억~100억</option>
+        <option>100억 이상</option>
+      </select>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="업종, 키워드로 검색...">
+      </div>
+      <button class="filter-btn">검색</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+  <p class="result-info">총 <strong>247</strong>개의 매물이 있습니다</p>
+
+  <div class="deals-grid" id="dealsGrid">
+    <!-- Cards injected by JS -->
+  </div>
+
+  <div class="pagination">
+    <button class="page-btn">‹</button>
+    <button class="page-btn active">1</button>
+    <button class="page-btn">2</button>
+    <button class="page-btn">3</button>
+    <button class="page-btn">4</button>
+    <button class="page-btn">5</button>
+    <button class="page-btn">›</button>
+  </div>
+</main>
+
+<script>
+const deals = [
+  {
+    no: 4146,
+    title: "감정가 23억 포트폴리오 보유 법인, 5억에 지분 100% 매각",
+    tags: ["법인매각", "포트폴리오", "지분100%"],
+    price: "5~5억",
+    revenue: "2.6억",
+    profit: "0.5억",
+    region: "서울시"
+  },
+  {
+    no: 3945,
+    title: "강남구 삼성동 호텔 객실 18개 양도양수",
+    tags: ["리모델링", "월숙박", "레지던스", "프랜차이즈", "삼성동", "로열티5%", "OTA수수로", "1인주거"],
+    price: "5~7억",
+    revenue: "0억",
+    profit: "0억",
+    region: "서울시"
+  },
+  {
+    no: 264,
+    title: "친환경 재활용 플라스틱 유통",
+    tags: ["환경", "재생플라스틱", "ESG", "탄소배출권", "재활용", "PVC컴파운드"],
+    price: "5~5억",
+    revenue: "20억",
+    profit: "2억",
+    region: "서울시"
+  },
+  {
+    no: 4290,
+    title: "[사업 매각] 국내 최고 AI 바이브코딩 솔루션",
+    tags: ["바이브코딩", "코딩에이전트", "AI", "코딩", "AI에이전트"],
+    price: "10~10억",
+    revenue: "29.4억",
+    profit: "0.2억",
+    region: "경기도"
+  },
+  {
+    no: 2015,
+    title: "홍삼 및 건강기능식품 브랜드 매각 [일부 사업부 / 브랜드 매각]",
+    tags: ["홍삼", "건강기능식품", "OEM 생산", "온라인 유통", "헬스케어"],
+    price: "20~20억",
+    revenue: "17억",
+    profit: "6억",
+    region: "서울시"
+  },
+  {
+    no: 4378,
+    title: "B2B 식자재 유통·도매, 연매출 40억원대, 자체 물류 100% 운영",
+    tags: ["식자재 유통", "B2B 도매", "자체 물류", "대구경북", "원스톱 공급", "냉동냉장 창고"],
+    price: "12~12억",
+    revenue: "46.6억",
+    profit: "1.7억",
+    region: "경상북도"
+  }
+];
+
+function renderDeals() {
+  const grid = document.getElementById('dealsGrid');
+  grid.innerHTML = deals.map(d => `
+    <div class="card">
+      <div class="card-top">
+        <span class="deal-no">매물번호 ${d.no}</span>
+        <button class="bookmark-btn" onclick="this.classList.toggle('active')">☆</button>
+      </div>
+      <div class="card-title">${d.title}</div>
+      <div class="tags">${d.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <hr class="card-divider">
+      <div class="card-stats">
+        <div class="stat">
+          <span class="stat-label">매각 희망 금액</span>
+          <span class="stat-value price">${d.price}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">매출</span>
+          <span class="stat-value">${d.revenue}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">영업이익</span>
+          <span class="stat-value">${d.profit}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">지역</span>
+          <span class="stat-value">${d.region}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+renderDeals();
+
+// Pagination click
+document.querySelectorAll('.page-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+    if (this.textContent !== '‹' && this.textContent !== '›') {
+      this.classList.add('active');
+    }
+  });
+});
+</script>
+</body>
+</html>
