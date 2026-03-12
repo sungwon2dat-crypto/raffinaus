@@ -3,344 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>딜마켓 — M&A 매물 플랫폼</title>
+<title>Deal Lounge — RaffinAus Equity</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --orange: #FF4B12;
-    --orange-light: #FFF1EC;
-    --dark: #111111;
-    --gray-800: #2D2D2D;
-    --gray-600: #555;
+    --gold: #C8922A;
+    --blue: #3B5BDB;
+    --dark: #1a1a1a;
+    --gray-500: #666;
     --gray-400: #999;
-    --gray-200: #E8E8E8;
-    --gray-100: #F5F5F5;
-    --white: #FFFFFF;
-    --border: #EBEBEB;
+    --gray-200: #e4e4e4;
+    --gray-100: #f7f7f7;
+    --white: #fff;
+    --border: #ebebeb;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: #f4f4f4; color: var(--dark); }
 
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: #FAFAFA;
-    color: var(--dark);
-    line-height: 1.5;
-  }
-
-  /* ── NAV ── */
   nav {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    background: var(--white); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
   }
   .nav-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    gap: 40px;
+    max-width: 1160px; margin: 0 auto; padding: 0 24px;
+    height: 64px; display: flex; align-items: center; gap: 20px;
   }
-  .logo {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--dark);
-    letter-spacing: -0.5px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .logo span {
-    color: var(--orange);
-  }
-  .nav-links {
-    display: flex;
-    gap: 28px;
-    list-style: none;
-    flex: 1;
-    justify-content: center;
-  }
-  .nav-links a {
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--gray-600);
-    position: relative;
-    padding-bottom: 2px;
-  }
-  .nav-links a.active {
-    color: var(--orange);
-    font-weight: 700;
-  }
-  .nav-links a.active::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0; right: 0;
-    height: 2px;
-    background: var(--orange);
-    border-radius: 1px;
-  }
-  .nav-links .badge {
-    display: inline-block;
-    width: 7px; height: 7px;
-    background: var(--orange);
-    border-radius: 50%;
-    margin-left: 2px;
-    vertical-align: super;
-  }
-  .nav-cta {
-    background: var(--dark);
-    color: var(--white);
-    border: none;
-    padding: 9px 18px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    white-space: nowrap;
-  }
+  .logo img { height: 38px; display: block; }
+  .nav-divider { width: 1px; height: 28px; background: var(--gray-200); flex-shrink: 0; }
+  .site-name { font-size: 15px; font-weight: 700; color: var(--dark); white-space: nowrap; letter-spacing: -0.3px; }
+  .nav-links { display: flex; gap: 24px; list-style: none; flex: 1; }
+  .nav-links a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--gray-500); }
+  .nav-links a.active { color: var(--dark); font-weight: 700; }
+  .dot { display: inline-block; width: 6px; height: 6px; background: var(--orange); border-radius: 50%; margin-left: 2px; vertical-align: super; }
+  .nav-cta { background: var(--dark); color: var(--white); border: none; padding: 9px 20px; border-radius: 6px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; white-space: nowrap; }
 
-  /* ── HERO FILTER ── */
-  .hero {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    padding: 28px 24px;
-  }
-  .hero-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .hero h1 {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--dark);
-    margin-bottom: 16px;
-    letter-spacing: -0.5px;
-  }
-  .hero h1 em {
-    color: var(--orange);
-    font-style: normal;
-  }
-  .filter-row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .filter-select {
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    padding: 9px 14px;
-    font-size: 13px;
-    font-family: inherit;
-    color: var(--gray-600);
-    background: white;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.15s;
-    min-width: 120px;
-  }
-  .filter-select:focus { border-color: var(--orange); }
-  .search-wrap {
-    flex: 1;
-    min-width: 200px;
-    position: relative;
-  }
-  .search-wrap input {
-    width: 100%;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    padding: 9px 14px 9px 38px;
-    font-size: 13px;
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .search-wrap input:focus { border-color: var(--orange); }
-  .search-icon {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--gray-400);
-    font-size: 15px;
-  }
-  .filter-btn {
-    background: var(--orange);
-    color: white;
-    border: none;
-    padding: 9px 20px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-  }
+  .filter-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 14px 0; }
+  .filter-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .filter-select { border: 1.5px solid var(--border); border-radius: 6px; padding: 8px 12px; font-size: 13px; font-family: inherit; color: var(--gray-500); background: white; cursor: pointer; outline: none; }
+  .search-wrap { flex: 1; min-width: 180px; position: relative; }
+  .search-wrap input { width: 100%; border: 1.5px solid var(--border); border-radius: 6px; padding: 8px 12px 8px 34px; font-size: 13px; font-family: inherit; outline: none; }
+  .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--gray-400); font-size: 14px; }
+  .filter-btn { background: var(--dark); color: white; border: none; padding: 8px 20px; border-radius: 6px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; }
 
-  /* ── MAIN ── */
-  .main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 28px 24px 60px;
-  }
-  .result-info {
-    font-size: 13px;
-    color: var(--gray-400);
-    margin-bottom: 20px;
-  }
-  .result-info strong {
-    color: var(--orange);
-    font-weight: 700;
-  }
+  .main { max-width: 1160px; margin: 0 auto; padding: 24px; }
+  .result-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .result-count { font-size: 13px; color: var(--gray-400); }
+  .result-count strong { color: var(--orange); font-weight: 700; }
+  .sort-select { border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; font-size: 12px; font-family: inherit; color: var(--gray-500); background: white; cursor: pointer; }
 
-  /* ── GRID ── */
-  .deals-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-  }
-  @media (max-width: 900px) { .deals-grid { grid-template-columns: repeat(2,1fr); } }
-  @media (max-width: 580px) { .deals-grid { grid-template-columns: 1fr; } }
+  .deals-list { display: flex; flex-direction: column; gap: 14px; }
 
-  /* ── CARD ── */
-  .card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 22px;
-    cursor: pointer;
-    transition: box-shadow 0.18s, transform 0.18s, border-color 0.18s;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    position: relative;
-  }
-  .card:hover {
-    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
-    transform: translateY(-2px);
-    border-color: #D8D8D8;
-  }
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; display: flex; overflow: hidden; transition: box-shadow 0.18s, border-color 0.18s; cursor: pointer; }
+  .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-color: #d8d8d8; }
 
-  .card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .deal-no {
-    font-size: 11px;
-    color: var(--gray-400);
-    font-weight: 500;
-    letter-spacing: 0.2px;
-  }
-  .bookmark-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--gray-300);
-    font-size: 16px;
-    line-height: 1;
-    padding: 2px;
-    transition: color 0.15s;
-  }
-  .bookmark-btn:hover { color: var(--orange); }
-  .bookmark-btn.active { color: var(--orange); }
+  .card-thumb { width: 155px; min-width: 155px; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 44px; }
 
-  .card-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--dark);
-    line-height: 1.45;
-    letter-spacing: -0.3px;
-    flex: 1;
-    min-height: 46px;
-  }
+  .card-body { flex: 1; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; }
 
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    min-height: 24px;
-  }
-  .tag {
-    background: var(--gray-100);
-    color: var(--gray-600);
-    font-size: 11px;
-    font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 4px;
-    white-space: nowrap;
-  }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .card-meta { display: flex; align-items: center; gap: 8px; }
+  .deal-no { font-size: 11px; color: var(--gray-400); font-weight: 500; }
+  .badge-new { background: var(--gold); color: white; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
+  .card-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .btn-unlock { background: var(--gold); color: white; border: none; padding: 7px 13px; border-radius: 6px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; white-space: nowrap; }
+  .btn-view { background: var(--blue); color: white; border: none; padding: 7px 13px; border-radius: 6px; font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; white-space: nowrap; }
 
-  .card-divider {
-    border: none;
-    border-top: 1px solid var(--border);
-  }
+  .card-title { font-size: 16px; font-weight: 700; color: var(--dark); line-height: 1.4; letter-spacing: -0.3px; }
+  .card-desc { font-size: 13px; color: var(--gray-500); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-  .card-stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px;
-  }
-  .stat {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-  .stat-label {
-    font-size: 10px;
-    color: var(--gray-400);
-    font-weight: 500;
-  }
-  .stat-value {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--dark);
-  }
-  .stat-value.price {
-    color: var(--orange);
-  }
+  .card-stats { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .stat { flex: 1; padding: 10px 14px; border-right: 1px solid var(--border); }
+  .stat:last-child { border-right: none; }
+  .stat-label { font-size: 10px; color: var(--gray-400); font-weight: 500; margin-bottom: 3px; }
+  .stat-value { font-size: 14px; font-weight: 700; color: var(--dark); }
+  .stat-value.price { color: var(--orange); }
 
-  /* ── PAGINATION ── */
-  .pagination {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    margin-top: 40px;
-  }
-  .page-btn {
-    width: 34px; height: 34px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: white;
-    font-size: 13px;
-    font-family: inherit;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--gray-600);
-    transition: all 0.15s;
-  }
-  .page-btn:hover { border-color: var(--orange); color: var(--orange); }
-  .page-btn.active { background: var(--orange); border-color: var(--orange); color: white; font-weight: 700; }
+  .card-perf { display: flex; gap: 16px; }
+  .perf-item { font-size: 11px; color: var(--gray-400); }
+  .up { color: #2f9e44; font-weight: 600; }
+  .na { color: var(--gray-400); }
+
+  .pagination { display: flex; justify-content: center; gap: 6px; margin-top: 32px; }
+  .page-btn { width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 6px; background: white; font-size: 13px; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--gray-500); }
+  .page-btn.active { background: var(--dark); border-color: var(--dark); color: white; font-weight: 700; }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="logo">딜마켓<span>.</span></a>
+    <a href="#" class="logo">
+      <img src="data:image/jpeg;base64,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" alt="RaffinAus Equity">
+    </a>
+    <div class="nav-divider"></div>
+    <span class="site-name">Deal Lounge</span>
     <ul class="nav-links">
       <li><a href="#" class="active">매물 찾기</a></li>
-      <li><a href="#">매물 추천<span class="badge"></span></a></li>
+      <li><a href="#">매물 추천<span class="dot"></span></a></li>
       <li><a href="#">진행중인 딜</a></li>
       <li><a href="#">프리미엄</a></li>
     </ul>
@@ -348,64 +108,37 @@
   </div>
 </nav>
 
-<!-- HERO / FILTER -->
-<div class="hero">
-  <div class="hero-inner">
-    <h1>검증된 M&A 매물 <em>직접 찾아보세요</em></h1>
-    <div class="filter-row">
-      <select class="filter-select">
-        <option>전체 업종</option>
-        <option>제조업</option>
-        <option>IT/소프트웨어</option>
-        <option>유통/도매</option>
-        <option>음식/F&B</option>
-        <option>서비스업</option>
-        <option>의료/헬스케어</option>
-        <option>물류/운송</option>
-        <option>건설/부동산</option>
-        <option>교육</option>
-        <option>미디어/콘텐츠</option>
-      </select>
-      <select class="filter-select">
-        <option>전체 지역</option>
-        <option>서울</option>
-        <option>경기도</option>
-        <option>인천</option>
-        <option>부산</option>
-        <option>대구</option>
-        <option>대전</option>
-        <option>광주</option>
-        <option>충청도</option>
-        <option>경상도</option>
-        <option>전라도</option>
-        <option>강원도</option>
-        <option>제주도</option>
-      </select>
-      <select class="filter-select">
-        <option>희망가격 전체</option>
-        <option>5억 미만</option>
-        <option>5억~10억</option>
-        <option>10억~30억</option>
-        <option>30억~100억</option>
-        <option>100억 이상</option>
-      </select>
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="업종, 키워드로 검색...">
-      </div>
-      <button class="filter-btn">검색</button>
+<div class="filter-bar">
+  <div class="filter-inner">
+    <select class="filter-select">
+      <option>전체 업종</option><option>제조업</option><option>IT/소프트웨어</option>
+      <option>유통/도매</option><option>음식/F&B</option><option>서비스업</option>
+      <option>의료/헬스케어</option><option>물류/운송</option><option>건설/부동산</option>
+      <option>교육</option><option>미디어/콘텐츠</option>
+    </select>
+    <select class="filter-select">
+      <option>전체 지역</option><option>서울</option><option>경기도</option>
+      <option>인천</option><option>부산</option><option>대구</option><option>대전</option>
+      <option>광주</option><option>충청도</option><option>경상도</option><option>전라도</option>
+    </select>
+    <select class="filter-select">
+      <option>희망가격 전체</option><option>5억 미만</option><option>5억~10억</option>
+      <option>10억~30억</option><option>30억~100억</option><option>100억 이상</option>
+    </select>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="업종, 키워드로 검색...">
     </div>
+    <button class="filter-btn">검색</button>
   </div>
 </div>
 
-<!-- MAIN -->
 <main class="main">
-  <p class="result-info">총 <strong>247</strong>개의 매물이 있습니다</p>
-
-  <div class="deals-grid" id="dealsGrid">
-    <!-- Cards injected by JS -->
+  <div class="result-bar">
+    <p class="result-count">총 <strong>247</strong>개의 매물</p>
+    <select class="sort-select"><option>최신순</option><option>가격 낮은순</option><option>매출 높은순</option></select>
   </div>
-
+  <div class="deals-list" id="dealsList"></div>
   <div class="pagination">
     <button class="page-btn">‹</button>
     <button class="page-btn active">1</button>
@@ -419,102 +152,48 @@
 
 <script>
 const deals = [
-  {
-    no: 4146,
-    title: "감정가 23억 포트폴리오 보유 법인, 5억에 지분 100% 매각",
-    tags: ["법인매각", "포트폴리오", "지분100%"],
-    price: "5~5억",
-    revenue: "2.6억",
-    profit: "0.5억",
-    region: "서울시"
-  },
-  {
-    no: 3945,
-    title: "강남구 삼성동 호텔 객실 18개 양도양수",
-    tags: ["리모델링", "월숙박", "레지던스", "프랜차이즈", "삼성동", "로열티5%", "OTA수수로", "1인주거"],
-    price: "5~7억",
-    revenue: "0억",
-    profit: "0억",
-    region: "서울시"
-  },
-  {
-    no: 264,
-    title: "친환경 재활용 플라스틱 유통",
-    tags: ["환경", "재생플라스틱", "ESG", "탄소배출권", "재활용", "PVC컴파운드"],
-    price: "5~5억",
-    revenue: "20억",
-    profit: "2억",
-    region: "서울시"
-  },
-  {
-    no: 4290,
-    title: "[사업 매각] 국내 최고 AI 바이브코딩 솔루션",
-    tags: ["바이브코딩", "코딩에이전트", "AI", "코딩", "AI에이전트"],
-    price: "10~10억",
-    revenue: "29.4억",
-    profit: "0.2억",
-    region: "경기도"
-  },
-  {
-    no: 2015,
-    title: "홍삼 및 건강기능식품 브랜드 매각 [일부 사업부 / 브랜드 매각]",
-    tags: ["홍삼", "건강기능식품", "OEM 생산", "온라인 유통", "헬스케어"],
-    price: "20~20억",
-    revenue: "17억",
-    profit: "6억",
-    region: "서울시"
-  },
-  {
-    no: 4378,
-    title: "B2B 식자재 유통·도매, 연매출 40억원대, 자체 물류 100% 운영",
-    tags: ["식자재 유통", "B2B 도매", "자체 물류", "대구경북", "원스톱 공급", "냉동냉장 창고"],
-    price: "12~12억",
-    revenue: "46.6억",
-    profit: "1.7억",
-    region: "경상북도"
-  }
+  { no:4146, isNew:true, emoji:"🏢", title:"감정가 23억 포트폴리오 보유 법인, 5억에 지분 100% 매각", desc:"서울 소재 법인으로 부동산 포트폴리오 보유. 지분 100% 매각으로 즉시 경영권 이전 가능. 장부가 대비 저평가된 매물.", price:"5~5억", revenue:"2.6억", profit:"0.5억", region:"서울시", pt:"+12%", rt:"+8%" },
+  { no:3945, isNew:true, emoji:"🏨", title:"강남구 삼성동 호텔 객실 18개 양도양수", desc:"강남 핵심 상권 삼성동 위치. 객실 18개 운영 중. 월숙박·레지던스 복합 운영. OTA 수수료 수익 안정적.", price:"5~7억", revenue:"0억", profit:"0억", region:"서울시", pt:"N/A", rt:"N/A" },
+  { no:264, isNew:false, emoji:"♻️", title:"친환경 재활용 플라스틱 유통", desc:"ESG 테마 수혜 기업. 재생 플라스틱·PVC 컴파운드 유통. 탄소배출권 연계 사업 가능.", price:"5~5억", revenue:"20억", profit:"2억", region:"서울시", pt:"+34%", rt:"+21%" },
+  { no:4290, isNew:true, emoji:"💻", title:"[사업 매각] 국내 최고 AI 바이브코딩 솔루션", desc:"AI 코딩 에이전트 기반 B2B SaaS. 고성장 시장 내 선도적 포지션. 구독형 매출로 안정적 현금흐름.", price:"10~10억", revenue:"29.4억", profit:"0.2억", region:"경기도", pt:"+5%", rt:"+83%" },
+  { no:2015, isNew:false, emoji:"🌿", title:"홍삼 및 건강기능식품 브랜드 매각 [일부 사업부 / 브랜드 매각]", desc:"홍삼·건강기능식품 온라인 유통 브랜드. OEM 생산 구조로 고정비 최소화.", price:"20~20억", revenue:"17억", profit:"6억", region:"서울시", pt:"+18%", rt:"+371%" },
+  { no:4378, isNew:false, emoji:"🥬", title:"B2B 식자재 유통·도매, 연매출 40억원대, 자체 물류 100% 운영", desc:"대구·경북 기반 B2B 식자재 유통. 자체 냉동냉장 창고 및 물류 보유. 원스톱 공급 체계.", price:"12~12억", revenue:"46.6억", profit:"1.7억", region:"경상북도", pt:"+15%", rt:"+9%" }
 ];
 
-function renderDeals() {
-  const grid = document.getElementById('dealsGrid');
-  grid.innerHTML = deals.map(d => `
-    <div class="card">
-      <div class="card-top">
-        <span class="deal-no">매물번호 ${d.no}</span>
-        <button class="bookmark-btn" onclick="this.classList.toggle('active')">☆</button>
+document.getElementById('dealsList').innerHTML = deals.map(d => `
+  <div class="card">
+    <div class="card-thumb">${d.emoji}</div>
+    <div class="card-body">
+      <div class="card-header">
+        <div class="card-meta">
+          <span class="deal-no">#${d.no}</span>
+          ${d.isNew ? '<span class="badge-new">● New Listing</span>' : ''}
+        </div>
+        <div class="card-actions">
+          <button class="btn-unlock">매물 잠금해제 🔒</button>
+          <button class="btn-view">상세보기 →</button>
+        </div>
       </div>
       <div class="card-title">${d.title}</div>
-      <div class="tags">${d.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-      <hr class="card-divider">
+      <div class="card-desc">${d.desc}</div>
       <div class="card-stats">
-        <div class="stat">
-          <span class="stat-label">매각 희망 금액</span>
-          <span class="stat-value price">${d.price}</span>
-        </div>
-        <div class="stat">
-          <span class="stat-label">매출</span>
-          <span class="stat-value">${d.revenue}</span>
-        </div>
-        <div class="stat">
-          <span class="stat-label">영업이익</span>
-          <span class="stat-value">${d.profit}</span>
-        </div>
-        <div class="stat">
-          <span class="stat-label">지역</span>
-          <span class="stat-value">${d.region}</span>
-        </div>
+        <div class="stat"><div class="stat-label">매각 희망 금액</div><div class="stat-value price">${d.price}</div></div>
+        <div class="stat"><div class="stat-label">매출</div><div class="stat-value">${d.revenue}</div></div>
+        <div class="stat"><div class="stat-label">영업이익</div><div class="stat-value">${d.profit}</div></div>
+        <div class="stat"><div class="stat-label">지역</div><div class="stat-value">${d.region}</div></div>
+      </div>
+      <div class="card-perf">
+        <span class="perf-item">영업이익 (12개월) <span class="${d.pt==='N/A'?'na':'up'}">${d.pt}</span></span>
+        <span class="perf-item">매출 (12개월) <span class="${d.rt==='N/A'?'na':'up'}">${d.rt}</span></span>
       </div>
     </div>
-  `).join('');
-}
+  </div>
+`).join('');
 
-renderDeals();
-
-// Pagination click
 document.querySelectorAll('.page-btn').forEach(btn => {
   btn.addEventListener('click', function() {
-    document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
     if (this.textContent !== '‹' && this.textContent !== '›') {
+      document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
     }
   });
